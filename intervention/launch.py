@@ -11,7 +11,7 @@ from pkg_resources import resource_filename
 # from PySide import QtCore
 
 if sys.platform == 'darwin':
-    from . import darwin as platform
+    import darwin as platform
 elif sys.platform.startswith('win'):
     from . import windows as platform
 else:
@@ -26,7 +26,7 @@ LOG_FORMAT = '%(relativeCreated)dms %(message)s'
 logging.basicConfig(format=LOG_FORMAT, level=logging.INFO)
 logging.info('Logging started')
 
-from .ui import Application
+from ui import Application
 
 DURATION = 15 * 1000
 SKIP_FILTER = True
@@ -42,7 +42,7 @@ def main():
     """
     application = Application(sys.argv, ignore_close=not SKIP_FILTER)
 
-    platform.hide_cursor()
+    # platform.hide_cursor()
 
     with open(resource_filename(__name__, 'intervention.css')) as css:
         application.setStyleSheet(css.read())

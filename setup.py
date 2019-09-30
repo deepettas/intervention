@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 
 install_requires = [
     'arrow==0.5.4',
-    'PySide==1.2.2',
+    'PySide2==1.2.2',
     'tini>=3.0.1',
 ]
 
