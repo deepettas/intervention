@@ -61,45 +61,6 @@ class Message(QtWidgets.QLabel):
                                       **kwargs)
 
 
-class Status(QtWidgets.QWidget):
-    """
-    The banner displayed at the top of the screen.
-    """
-    def __init__(self, **kwargs):
-        super(Status, self).__init__(**kwargs)
-
-
-
-
-    def keyPressEvent(self, e):
-        # Call the parent so we can exit on 'enter' or 'return'
-        self.parent().keyPressEvent(e)
-
-        if e.key() == QtCore.Qt.LeftArrow:
-            setIntent('left')
-        else:
-            setIntent('right')
-        print('setting intent', self.objectName())
-        #
-        #
-        # if e.key() == QtCore.Qt.Key_Y or e.key() == QtCore.Qt.Key_1:
-        #     self.answer = 'yes'
-        # elif e.key() == QtCore.Qt.Key_N or e.key() == QtCore.Qt.Key_2:
-        #     self.answer = 'no'
-        # elif e.key() == QtCore.Qt.Key_I or e.key() == QtCore.Qt.Key_3:
-        #     self.answer = 'ok'
-
-        self.refresh()
-        print(self.answer)
-
-
-
-
-    def focusInEvent(self, _):
-        self.setStyleSheet('background-color: #cccccc;')
-
-    def focusOutEvent(self, _):
-        self.setStyleSheet('')
 
 
 class Inputs(QtWidgets.QWidget):
@@ -221,6 +182,14 @@ class Inputs(QtWidgets.QWidget):
                 self.ok.setStyleSheet(self.highlight_style)
 
 
+    def focusInEvent(self, _):
+        self.setStyleSheet('background-color: #cccccc;')
+
+    def focusOutEvent(self, _):
+        self.setStyleSheet('')
+
+
+
 class Window(QtWidgets.QWidget):
     """
     The application's full-screen container.
@@ -241,15 +210,12 @@ class Window(QtWidgets.QWidget):
         self.title_font = fonts.font('Museo Slab', '500', 96)
 
         message = Message(parent=self, font=self.title_font)
-        self.status = Status(parent=self, font=self.status_font)
         self.inputs = Inputs(parent=self, font=self.text_font)
 
         self.layout = QtWidgets.QVBoxLayout()
 
         self.layout.addWidget(message)
         self.layout.addSpacing(40)
-        self.layout.addWidget(self.status)
-        self.layout.addSpacing(30)
         self.layout.addWidget(self.inputs)
         self.layout.addStretch(1)
 
@@ -269,7 +235,7 @@ class Window(QtWidgets.QWidget):
         with open(log_path, 'a') as log:
             log.write('"{}","{}","{}","{}","{}"\n'.format(
                 arrow.now().isoformat(),
-                self.input.answer,
+                self.inputs.answer,
                 now_text, next_text,
                 feel_text))
 
